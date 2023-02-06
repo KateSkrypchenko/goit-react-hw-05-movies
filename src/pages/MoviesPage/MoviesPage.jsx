@@ -27,6 +27,9 @@ const MoviesPage = () => {
         setError(null);
         const response = await getMovieByName(query);
         setMovies(response.results);
+        if (response.total_results === 0) {
+          alert(`We don't find any movies`);
+        }
       } catch (error) {
         setError(error);
         alert(error);
