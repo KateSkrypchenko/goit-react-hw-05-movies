@@ -3,8 +3,10 @@ import { useParams } from 'react-router-dom';
 import { getMovieReviews } from 'services/Api';
 
 import { ItemStyled, TextStyled } from './ReviewPage.styled';
+import { Error } from 'components/Error/Error';
+import { Loader } from 'components/Loader/Loader';
 
-export const ReviewPage = () => {
+const ReviewPage = () => {
   const [review, setReview] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -20,6 +22,7 @@ export const ReviewPage = () => {
         setReview(response.results);
       } catch (error) {
         setError(error);
+        alert(error);
       } finally {
         setIsLoading(false);
       }
@@ -30,7 +33,9 @@ export const ReviewPage = () => {
 
   return (
     <div>
-      {!isLoading && (
+      {error && <Error />}
+      {isLoading && <Loader />}
+      {!isLoading && review.length > 0 && (
         <div>
           <ul>
             {review.map(({ id, author, content }) => (
@@ -42,6 +47,9 @@ export const ReviewPage = () => {
           </ul>
         </div>
       )}
+      {!isLoading && !error && review.length === 0 && <p>There is no information</p>}
     </div>
   );
 };
+
+export default ReviewPage;

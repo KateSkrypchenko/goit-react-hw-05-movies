@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useParams, Outlet } from 'react-router-dom';
+import { useParams, Outlet, useLocation } from 'react-router-dom';
 import { TfiHandPointLeft } from 'react-icons/tfi';
 
 import { getMovieDetails } from 'services/Api';
@@ -7,6 +7,7 @@ import { getGenresMovie } from 'services/getGenresMovie';
 import { getYearDate } from 'services/getYearDate';
 
 import { Loader } from 'components/Loader/Loader';
+import { Error } from 'components/Error/Error';
 
 import {
   ContainerStyled,
@@ -18,7 +19,7 @@ import {
   NavLinkStyled,
 } from './MovieDetailsPage.styled';
 
-export const MovieDetailsPage = () => {
+const MovieDetailsPage = () => {
   const [movie, setMovie] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -34,6 +35,7 @@ export const MovieDetailsPage = () => {
         setMovie(response);
       } catch (error) {
         setError(error);
+        alert(error);
       } finally {
         setIsLoading(false);
       }
@@ -42,19 +44,28 @@ export const MovieDetailsPage = () => {
     fetchMovie();
   }, [id]);
 
+  const location = useLocation();
+  const backLinkHref = location.state?.from ?? '/';
+
   return (
     <ContainerStyled>
-      <LinkStyled to="/">
+      <LinkStyled to={backLinkHref}>
         <TfiHandPointLeft />
         Go Back
       </LinkStyled>
       {isLoading && <Loader />}
+      {error && <Error />}
       {!isLoading && (
         <CardStyled>
           <img
-            src={`https://image.tmdb.org/t/p/w500${movie.poster_path}`}
+            src={
+              movie.poster_path
+                ? `https://image.tmdb.org/t/p/w500${movie.poster_path}`
+                : 'https://ik.imagekit.io/tc8jxffbcvf/default-movie-portrait_EmJUj9Tda5wa.jpg?tr=fo-auto,di-'
+            }
             alt={movie.title}
             width="300"
+            loading="lazy"
           />
           <BoxStyled>
             <h3>
@@ -87,3 +98,5 @@ export const MovieDetailsPage = () => {
     </ContainerStyled>
   );
 };
+
+export default MovieDetailsPage;

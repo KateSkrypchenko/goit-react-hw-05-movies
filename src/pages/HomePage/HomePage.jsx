@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 import { getTrendMovies } from 'services/Api';
 
 import { MoviesList } from 'components/MoviesList/MoviesList';
 import { Loader } from 'components/Loader/Loader';
+import { Error } from 'components/Error/Error';
 
 import { ContainerStyled, TitleStyled } from './HomePage.styled';
 
-export const HomePage = () => {
+const HomePage = () => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -30,11 +32,16 @@ export const HomePage = () => {
     fetchMovies();
   }, []);
 
+  const location = useLocation();
+
   return (
     <ContainerStyled>
       <TitleStyled>Trending today</TitleStyled>
-      {movies.length > 0 && <MoviesList movies={movies} />}
+      {error && <Error />}
       {isLoading && <Loader />}
+      {movies.length > 0 && <MoviesList movies={movies} state={{ from: location }} />}
     </ContainerStyled>
   );
 };
+
+export default HomePage;

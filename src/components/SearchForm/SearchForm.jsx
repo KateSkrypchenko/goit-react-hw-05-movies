@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import PropTypes from 'prop-types';
 
 import { FormStyled, InputStyled, ButtonStyled } from './SearchForm.styled';
 
@@ -28,4 +29,8 @@ export const SearchForm = ({ onChangeSearch }) => {
       <ButtonStyled type="submit">Search</ButtonStyled>
     </FormStyled>
   );
+};
+
+SearchForm.propTypes = {
+  onChangeSearch: PropTypes.func.isRequired,
 };

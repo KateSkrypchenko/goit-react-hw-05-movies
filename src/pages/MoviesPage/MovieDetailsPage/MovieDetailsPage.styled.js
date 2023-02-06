@@ -69,7 +69,9 @@ export const NavLinkStyled = styled(NavLink)`
   padding: 10px 0;
   color: #5f0000;
 
-  &.active {
+  &.active,
+  &:hover,
+  &:focus {
     color: red;
   }
 `;

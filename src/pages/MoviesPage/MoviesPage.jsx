@@ -1,14 +1,15 @@
 import { useState, useEffect } from 'react';
 import { getMovieByName } from 'services/Api';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 
 import { SearchForm } from 'components/SearchForm/SearchForm';
 import { MoviesList } from 'components/MoviesList/MoviesList';
 import { Loader } from 'components/Loader/Loader';
+import { Error } from 'components/Error/Error';
 
 import { ContainerStyled } from './MoviesPage.styled';
 
-export const MoviesPage = () => {
+const MoviesPage = () => {
   const [movies, setMovies] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -17,7 +18,7 @@ export const MoviesPage = () => {
   const query = searchParams.get('query');
 
   useEffect(() => {
-    if (query === '') {
+    if (!query) {
       return;
     }
     const fetchMovies = async () => {
@@ -28,6 +29,7 @@ export const MoviesPage = () => {
         setMovies(response.results);
       } catch (error) {
         setError(error);
+        alert(error);
       } finally {
         setIsLoading(false);
       }
@@ -40,11 +42,16 @@ export const MoviesPage = () => {
     setSearchParams({ query });
   };
 
+  const location = useLocation();
+
   return (
     <ContainerStyled>
       <SearchForm onChangeSearch={onChangeSearch} />
-      {movies.length > 0 && <MoviesList movies={movies} />}
+      {error && <Error />}
+      {movies.length > 0 && <MoviesList movies={movies} state={{ from: location }} />}
       {isLoading && <Loader />}
     </ContainerStyled>
   );
 };
+
+export default MoviesPage;
