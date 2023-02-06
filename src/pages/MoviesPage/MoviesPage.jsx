@@ -46,7 +46,7 @@ const MoviesPage = () => {
 
   return (
     <ContainerStyled>
-      <SearchForm onChangeSearch={onChangeSearch} />
+      <SearchForm onChangeSearch={onChangeSearch} value={query} />
       {error && <Error />}
       {movies.length > 0 && <MoviesList movies={movies} state={{ from: location }} />}
       {isLoading && <Loader />}

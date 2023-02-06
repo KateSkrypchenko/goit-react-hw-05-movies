@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 
 import { FormStyled, InputStyled, ButtonStyled } from './SearchForm.styled';
 
-export const SearchForm = ({ onChangeSearch }) => {
-  const [query, setQuery] = useState('');
+export const SearchForm = ({ onChangeSearch, value }) => {
+  const [query, setQuery] = useState(value || '');
 
   const handelInputChange = event => {
     setQuery(event.currentTarget.value.toLowerCase().trim());
@@ -32,5 +32,6 @@ export const SearchForm = ({ onChangeSearch }) => {
 };
 
 SearchForm.propTypes = {
+  value: PropTypes.string,
   onChangeSearch: PropTypes.func.isRequired,
 };

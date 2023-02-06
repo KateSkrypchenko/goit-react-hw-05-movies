@@ -86,11 +86,15 @@ const MovieDetailsPage = () => {
         <ListStyled>
           <li>
             &#8594;
-            <NavLinkStyled to={`/movies/${id}/cast`}>View cast information here</NavLinkStyled>
+            <NavLinkStyled to={`/movies/${id}/cast`} state={{ from: backLinkHref }}>
+              View cast information here
+            </NavLinkStyled>
           </li>
           <li>
             &#8594;
-            <NavLinkStyled to={`/movies/${id}/reviews`}>See reviews here</NavLinkStyled>
+            <NavLinkStyled to={`/movies/${id}/reviews`} state={{ from: backLinkHref }}>
+              See reviews here
+            </NavLinkStyled>
           </li>
         </ListStyled>
       </BoxStyled>
