@@ -1,11 +1,15 @@
 import PropTypes from 'prop-types';
 import { BiCameraMovie } from 'react-icons/bi';
+import AOS from 'aos';
+import 'aos/dist/aos.css';
 
 import { ItemStyled, LinkStyled, TitleStyled, Image } from './MoviesItems.styled';
 
 export const MoviesItems = ({ id, title, poster_path, state }) => {
+  AOS.init();
+
   return (
-    <ItemStyled key={id}>
+    <ItemStyled key={id} data-aos="fade-up">
       <LinkStyled to={`/movies/${id}`} state={state}>
         <Image
           src={
