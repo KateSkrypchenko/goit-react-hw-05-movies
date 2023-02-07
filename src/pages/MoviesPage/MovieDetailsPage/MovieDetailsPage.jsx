@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import { useParams, Outlet, useLocation } from 'react-router-dom';
 import { TfiHandPointLeft } from 'react-icons/tfi';
 
@@ -98,7 +98,9 @@ const MovieDetailsPage = () => {
           </li>
         </ListStyled>
       </BoxStyled>
-      <Outlet />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Outlet />
+      </Suspense>
     </ContainerStyled>
   );
 };
